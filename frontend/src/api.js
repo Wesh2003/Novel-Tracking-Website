@@ -25,7 +25,10 @@ export const api = {
   login: (payload) => request('/auth/login', { method: 'POST', body: JSON.stringify(payload) }),
   getMe: () => request('/auth/me'),
   getNovels: (params = {}) => {
-    const query = new URLSearchParams(params).toString();
+    const cleanParams = Object.fromEntries(
+      Object.entries(params).filter(([, value]) => value !== undefined && value !== null),
+    );
+    const query = new URLSearchParams(cleanParams).toString();
     return request(`/novels${query ? `?${query}` : ''}`);
   },
   createNovel: (payload) => request('/novels', { method: 'POST', body: JSON.stringify(payload) }),
