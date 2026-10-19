@@ -1,0 +1,363 @@
+Novel Tracking Website - Module Map
+==================================
+
+This document lists the main modules in the project and shows how they are organized. It also identifies the control modules and their subordinate modules.
+
+
+1. Overview of the project modules
+----------------------------------
+The project is composed of two major subsystems:
+
+A. Frontend application module
+   - React-based web interface for user interaction
+   - Handles routing, UI rendering, authentication flow, and dashboard views
+
+B. Backend application module
+   - Manages API requests, user authentication, SQLite data access, and business logic
+   - Includes both a Node/Express backend and a Python/Flask backend implementation
+
+
+2. Control modules and subordinate modules
+------------------------------------------
+
+A. Frontend control modules
+---------------------------
+
+1) frontend/src/App.js
+   Role: Primary frontend control module.
+   Responsibilities:
+   - Initializes app-level authentication state
+   - Loads the current user from local storage
+   - Routes users to login/register or protected pages
+   - Passes login/logout functions to child components
+
+   Subordinate modules used by App.js:
+   - frontend/src/api.js
+     Handles HTTP requests to the backend and token management.
+
+   - frontend/src/components/Layout.jsx
+     Provides the shared layout and navigation shell for protected pages.
+
+   - frontend/src/pages/*
+     User-facing page modules such as DashboardPage, LibraryPage, NovelDetailPage,
+     ReadingGoalsPage, SessionsPage, StatisticsPage, NotesPage, ProfilePage,
+     SettingsPage, LoginPage, and RegisterPage.
+
+2) frontend/src/index.js
+   Role: Frontend bootstrap module.
+   Responsibilities:
+   - Renders the root React application
+   - Attaches the app to the DOM
+
+3) frontend/src/main.jsx
+   Role: Vite bootstrap module.
+   Responsibilities:
+   - Alternative React entry file used in the Vite-based frontend setup
+
+4) frontend/src/api.js
+   Role: API communication control module.
+   Responsibilities:
+   - Centralizes all backend fetch requests
+   - Adds Authorization headers with JWT tokens
+   - Handles request errors consistently
+
+   Subordinate API actions:
+   - auth endpoints
+   - novel endpoints
+   - session endpoints
+   - goals endpoints
+   - notes endpoints
+   - statistics endpoints
+
+5) frontend/src/components/Layout.jsx
+   Role: Shared UI control module.
+   Responsibilities:
+   - Renders the sidebar navigation
+   - Displays the top header and current user info
+   - Wraps each protected page in the same layout
+
+6) frontend/src/pages/*
+   Role: Page controller modules.
+   Responsibilities:
+   - Each page module controls a specific feature area of the application.
+
+   Included page modules:
+   - DashboardPage.jsx
+     Main analytics overview
+
+   - LibraryPage.jsx
+     Library browsing and novel creation form
+
+   - NovelDetailPage.jsx
+     Detailed view of a single novel
+
+   - NotesPage.jsx
+     Note creation and list display
+
+   - LoginPage.jsx
+     User sign-in form
+
+   - RegisterPage.jsx
+     New account creation form
+
+   - ReadingGoalsPage.jsx
+     Goal tracking UI
+
+   - SessionsPage.jsx
+     Reading session tracking UI
+
+   - StatisticsPage.jsx
+     Charts and reading metrics
+
+   - ProfilePage.jsx
+     User profile display
+
+   - SettingsPage.jsx
+     General settings placeholder page
+
+
+B. Backend control modules
+-------------------------
+
+1) backend/server.js
+   Role: Main Node backend control module.
+   Responsibilities:
+   - Starts the Express server
+   - Loads middleware and API route modules
+   - Initializes the database
+   - Handles global server errors
+
+   Subordinate modules used by server.js:
+   - backend/src/db.js
+     Database connection and SQLite schema management
+
+   - backend/routes/auth.js
+     Authentication endpoints
+
+   - backend/routes/novels.js
+     Novel CRUD logic
+
+   - backend/routes/sessions.js
+     Reading session CRUD logic
+
+   - backend/routes/goals.js
+     Goal CRUD logic
+
+   - backend/routes/notes.js
+     Notes CRUD logic
+
+   - backend/routes/statistics.js
+     Reading statistics logic
+
+   - backend/middleware/auth.js
+     JWT validation middleware
+
+2) backend/src/db.js
+   Role: Data access control module.
+   Responsibilities:
+   - Creates the SQLite database if missing
+   - Defines all database tables
+   - Provides helper methods for reads and writes
+   - Seeds demo data for a sample user
+
+   Subordinate data structures:
+   - users table
+   - novels table
+   - reading_sessions table
+   - reading_goals table
+   - notes table
+   - quotes table
+
+3) backend/middleware/auth.js
+   Role: Security control module.
+   Responsibilities:
+   - Validates bearer tokens
+   - Extracts the authenticated user
+   - Protects API routes from unauthorized access
+
+4) backend/routes/auth.js
+   Role: Authentication service module.
+   Responsibilities:
+   - Register user
+   - Login user
+   - Return current user profile
+
+5) backend/routes/novels.js
+   Role: Novel management control module.
+   Responsibilities:
+   - List novels
+   - Filter and sort novels
+   - Add new novel
+   - View a novel detail page payload
+   - Update or delete novel
+
+6) backend/routes/sessions.js
+   Role: Reading session management module.
+   Responsibilities:
+   - Store progress reading sessions
+   - Calculate pages read from start and end page values
+   - Update and delete reading session records
+
+7) backend/routes/goals.js
+   Role: Reading goals management module.
+   Responsibilities:
+   - Create, update, and delete reading goals
+   - Track progress against targets
+
+8) backend/routes/notes.js
+   Role: Note management module.
+   Responsibilities:
+   - Save notes for books or general reading thoughts
+   - Fetch notes for a user
+   - Update or delete notes
+
+9) backend/routes/statistics.js
+   Role: Analytics control module.
+   Responsibilities:
+   - Aggregate book count, pages, completion ratios, and genre statistics
+   - Build monthly reading activity data
+   - Return summary metrics to the frontend
+
+
+C. Python backend modules (alternative implementation)
+------------------------------------------------------
+
+1) backend/app.py
+   Role: Python Flask control module.
+   Responsibilities:
+   - Creates the Flask app
+   - Configures database and JWT secret
+   - Exposes API endpoints for auth, novel data, and statistics
+   - Initializes database tables on startup
+
+   Subordinate modules:
+   - backend/models.py
+     Defines the database schema and model behavior
+
+2) backend/models.py
+   Role: Python data model module.
+   Responsibilities:
+   - Defines User, Novel, ReadingSession, ReadingGoal, Note, and Quote models
+   - Provides helper functions like progress_percentage() and pages_remaining()
+
+3) backend/seed.py
+   Role: Data population control module.
+   Responsibilities:
+   - Creates demo records for a demo reader account
+   - Seeds novels, goals, notes, quotes, and reading sessions
+
+
+3. Module hierarchy diagram
+---------------------------
+
+Project Root
+│
+├── README.md
+├── documentation.txt
+├── module.txt
+├── .gitignore
+├── .env / .env.example
+│
+├── frontend/
+│   │
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   ├── index.html
+│   │
+│   ├── src/
+│   │   ├── index.js                  (React bootstrap)
+│   │   ├── main.jsx                 (Vite bootstrap)
+│   │   ├── index.css                (global styles)
+│   │   ├── api.js                  (API control layer)
+│   │   ├── App.js                  (main frontend controller)
+│   │   │
+│   │   ├── components/
+│   │   │   └── Layout.jsx          (shared UI shell)
+│   │   │
+│   │   └── pages/
+│   │       ├── LoginPage.jsx
+│   │       ├── RegisterPage.jsx
+│   │       ├── DashboardPage.jsx
+│   │       ├── LibraryPage.jsx
+│   │       ├── NovelDetailPage.jsx
+│   │       ├── NotesPage.jsx
+│   │       ├── ReadingGoalsPage.jsx
+│   │       ├── SessionsPage.jsx
+│   │       ├── StatisticsPage.jsx
+│   │       ├── ProfilePage.jsx
+│   │       └── SettingsPage.jsx
+│   │
+│   └── public/
+│       ├── index.html
+│       ├── favicon.svg
+│       └── icons.svg
+│
+└── backend/
+    │
+    ├── package.json
+    ├── requirements.txt
+    ├── .env / .env.example
+    ├── server.js                   (Node backend controller)
+    ├── app.py                      (Python Flask controller)
+    ├── models.py                   (Python model layer)
+    ├── seed.py                     (Python data seeding)
+    │
+    ├── src/
+    │   └── db.js                   (SQLite data access module)
+    │
+    ├── middleware/
+    │   └── auth.js                 (JWT auth control)
+    │
+    ├── routes/
+    │   ├── auth.js
+    │   ├── novels.js
+    │   ├── sessions.js
+    │   ├── goals.js
+    │   ├── notes.js
+    │   └── statistics.js
+    │
+    ├── data/
+    │   └── novel-tracker.db
+    │
+    └── instance/
+
+
+4. Control flow summary
+-----------------------
+
+Frontend controller flow:
+App.js -> api.js -> backend routes -> database layer -> response data -> page modules
+
+Backend controller flow:
+server.js -> routes/* -> middleware/auth.js -> src/db.js -> SQLite database
+
+Python backend flow:
+app.py -> models.py -> database tables -> JSON responses
+
+
+5. Module classification
+------------------------
+
+Control modules:
+- frontend/src/App.js
+- frontend/src/api.js
+- frontend/src/components/Layout.jsx
+- backend/server.js
+- backend/middleware/auth.js
+- backend/routes/*
+- backend/app.py
+
+Subordinate modules:
+- frontend/src/pages/*
+- frontend/src/components/*
+- backend/src/db.js
+- backend/models.py
+- backend/seed.py
+- database tables and data files
+
+
+6. Conclusion
+-------------
+The project is best understood as a layered system with a frontend control layer, a backend API control layer, and a data layer. The top-level control modules coordinate user flow and business logic, while the subordinate modules provide UI pages, route logic, and database operations.

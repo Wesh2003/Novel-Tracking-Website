@@ -1,0 +1,25 @@
+Novel Tracking Website ERD Overview
+
+This ERD is the data model for a personal reading tracker. It is built around a single core idea: every user has a library of books, and each book can accumulate reading progress, notes, quotes, and reading goals over time. The database is designed so that a reader can keep track of what they are reading, how far they have progressed, what they want to achieve, and what they want to remember about each title.
+
+The main parent entity is users. Every other table in the diagram is connected back to a user through a user_id foreign key. This means each person has their own personal library and their own reading history. The email field is unique, so one account cannot be duplicated, and the password_hash stores a secure version of the user’s password. The user record also has timestamps to show when the account was created and last updated.
+
+The next major entity is novels. A novel belongs to a user and represents a specific book in that user’s library. The user_id field links the book to the person who owns it. Each novel stores metadata such as title, author, genre, description, ISBN, page count, current page, status, rating, and dates started/finished. This makes the novels table the heart of the reading list: it tracks each title as a bookshelf item, and it also records the reader’s current progress and reading state.
+
+The relationship between users and novels is one-to-many. One user can have many novels, but each novel belongs to one user. This is the foundational relationship in the ERD: a reader owns many books, and each book is tied to exactly one reader. In practice, this allows the app to show a personal library, filter by the logged-in user, and keep every book separate from another user’s shelf.
+
+Reading sessions are the detailed progress records for a novel. Each reading_session has a user_id and a novel_id, which means it is always associated with both the person and the specific book they are reading. It also includes session_date, start_page, end_page, pages_read, duration_minutes, and notes. This table captures how much reading happened in each session, rather than just the total current page. It is the data source for day-by-day reading activity, streaks, monthly stats, and page totals.
+
+The relationship between novels and reading_sessions is also one-to-many: one novel can have many reading sessions, but each session belongs to a single novel. The relationship between users and reading_sessions is also one-to-many: one user can log many reading sessions, but each session belongs to one user. Together, these links allow the app to answer questions like: “How many pages did this user read for this novel this week?” or “What has this person read recently?”
+
+Reading goals are another user-centric table. Unlike novels or reading sessions, a reading_goal is not tied to a specific book. It stores a user_id, title, goal_type, target_value, current_value, unit, start_date, and end_date. This makes it a personal target, such as “Read 12 books this year,” “Read 500 pages this month,” or “Finish 3 classics by summer.” The goal is associated with the user because the reading objective belongs to that person’s broader reading habits, not just one title.
+
+The relationship between users and reading_goals is one-to-many: one user can create many goals, but each goal belongs to one user. This table is useful for tracking accountability and motivation across the full reading life of the user.
+
+Notes and quotes are content tables attached to reading activity. Both include user_id and an optional novel_id. The novel_id is nullable, meaning a note or quote can be tied to a specific book when relevant, or stored as a general personal thought when it is not connected to a particular title. Notes store title and content; quotes store a quote text and optional page_number. These tables let a reader save memorable thoughts, summaries, and literary highlights without losing them in a general journal.
+
+The relationship between users and notes is one-to-many, and between users and quotes is one-to-many. The relationships to novels are also one-to-many when the item is linked to a specific book. If a note or quote is related to a title, it points directly to that novel; otherwise it remains a general user-level entry.
+
+The database uses foreign keys with ON DELETE CASCADE, which means that if a user is deleted, all of their books, sessions, goals, notes, and quotes are deleted too. If a novel is deleted, its related reading sessions, notes, and quotes are removed as well. This keeps the data consistent and prevents orphaned records that would otherwise reference missing users or books.
+
+In simple terms, the ERD models a reading app as a layered system: users create a reading profile, add novels to a private library, log reading sessions for those novels, set goals to motivate themselves, and save notes and quotes to remember what they learned or loved. The relationships are designed so that the app can show the user’s whole reading life in one place while still keeping each record organized by account and by book.
