@@ -1,0 +1,198 @@
+Novel Tracking Website - Project Documentation
+=============================================
+
+Project purpose:
+This project is a reading tracker app built to help users track their books, reading sessions, goals, notes, and reading statistics. It includes a frontend web app for user interaction and a backend API for authentication and data management.
+
+The project currently contains both a Python/Flask backend and a Node/Express backend setup, with the frontend using React and Tailwind CSS.
+
+
+Top-level structure
+-------------------
+- README.md
+  Purpose: Project overview, setup instructions, stack summary, and basic app information.
+
+- .gitignore
+  Purpose: Tells Git which files and folders to ignore, such as environment files and installed dependencies.
+
+- .env
+  Purpose: Local environment configuration for the backend, including port, JWT secret, client URL, and database path.
+
+- .env.example
+  Purpose: Example environment file template for developers to copy and configure locally.
+
+- backend/
+  Purpose: Backend application files for the reading tracker API and database logic.
+
+- frontend/
+  Purpose: Frontend application files for the UI and user experience.
+
+- documentation.txt
+  Purpose: This file documents the project structure and purpose of the files in the repository.
+
+
+Backend files
+-------------
+- backend/app.py
+  Purpose: Main Flask application for the Python backend. Defines the API routes for user authentication, novels, sessions, goals, notes, and statistics. Initializes the database and handles JSON responses.
+
+- backend/models.py
+  Purpose: SQLAlchemy database models for users, novels, reading sessions, notes, goals, and quotes. Contains model fields and helper methods such as progress_percentage() and pages_remaining().
+
+- backend/server.js
+  Purpose: Alternative backend server written in Node.js with Express. Starts the API server, configures CORS, loads route handlers, and initializes the SQLite database.
+
+- backend/package.json
+  Purpose: Node backend configuration file with scripts for running the server and dependencies such as Express, SQLite, JWT, and bcrypt.
+
+- backend/requirements.txt
+  Purpose: Python dependencies required to run the Flask backend, including Flask, Flask-SQLAlchemy, JWT tools, and SQLAlchemy.
+
+- backend/seed.py
+  Purpose: Seeds the database with demo user data and sample reading data for the app, including novels, sessions, goals, notes, and quotes.
+
+- backend/.env
+  Purpose: Local runtime environment settings for the Node backend.
+
+- backend/.env.example
+  Purpose: Template for backend environment variables.
+
+- backend/middleware/auth.js
+  Purpose: Middleware that validates Bearer JWT tokens and attaches the authenticated user to the request object.
+
+- backend/src/db.js
+  Purpose: Manages SQLite database creation, schema setup, and utility functions for running queries. Also creates demo data if the database is empty.
+
+- backend/data/
+  Purpose: Storage folder for the SQLite database file created at runtime.
+
+- backend/instance/
+  Purpose: Flask instance folder used for app-specific runtime configuration and generated data.
+
+- backend/routes/auth.js
+  Purpose: Handles user registration, login, and profile lookup APIs.
+
+- backend/routes/novels.js
+  Purpose: Handles CRUD operations for novels, filtering, sorting, and returning progress metadata such as percentage complete and pages remaining.
+
+- backend/routes/sessions.js
+  Purpose: Handles reading session creation, updates, and deletion, including page tracking and duration metadata.
+
+- backend/routes/goals.js
+  Purpose: Handles the creation and management of reading goals for books, pages, or time-based progress.
+
+- backend/routes/notes.js
+  Purpose: Handles note creation, retrieval, update, and deletion for user notes tied to books.
+
+- backend/routes/statistics.js
+  Purpose: Calculates reading statistics such as books completed, total pages read, average pages per day, genre distribution, and monthly activity.
+
+
+Frontend files
+--------------
+- frontend/package.json
+  Purpose: Frontend package manifest with scripts for running the app and dependencies such as React, React Router, Tailwind CSS, Recharts, and Lucide icons.
+
+- frontend/index.html
+  Purpose: Main HTML shell for the frontend app, including the root mount element.
+
+- frontend/vite.config.js
+  Purpose: Vite configuration for the frontend development server and build process.
+
+- frontend/tailwind.config.js
+  Purpose: Tailwind CSS configuration, including the custom glow shadow styling used throughout the app.
+
+- frontend/postcss.config.js
+  Purpose: PostCSS configuration used with Tailwind CSS to process CSS.
+
+- frontend/README.md
+  Purpose: Frontend-specific setup and usage notes.
+
+- frontend/public/
+  Purpose: Static public assets served by the app, including the main HTML file and icons/favicon resources.
+
+- frontend/public/index.html
+  Purpose: Public entry HTML file used by the frontend build and static hosting.
+
+- frontend/public/favicon.svg
+  Purpose: Small site icon for the browser tab.
+
+- frontend/public/icons.svg
+  Purpose: Additional icon asset used by the application or branding.
+
+- frontend/src/api.js
+  Purpose: Shared API helper for all frontend requests. Centralizes fetch calls, token handling, and backend URL logic.
+
+- frontend/src/App.js
+  Purpose: Main app component that handles authentication state, route protection, and route mapping for the dashboard and pages.
+
+- frontend/src/index.js
+  Purpose: Standard React entry point for the app, mounting the root component into the DOM.
+
+- frontend/src/main.jsx
+  Purpose: Alternative React entry point used by the Vite setup.
+
+- frontend/src/index.css
+  Purpose: Tailwind base imports and custom global styles for the visual design of the app.
+
+- frontend/src/components/Layout.jsx
+  Purpose: Shared application layout, including sidebar navigation, header, user welcome area, and logout button.
+
+- frontend/src/pages/DashboardPage.jsx
+  Purpose: Displays the main dashboard with summary cards, reading progress charts, and monthly statistics.
+
+- frontend/src/pages/LibraryPage.jsx
+  Purpose: Displays the user’s book library, allows searching/filtering books, and includes a form to add new novels.
+
+- frontend/src/pages/NovelDetailPage.jsx
+  Purpose: Shows details for a single novel, including cover, author, status, progress, and reading history summary.
+
+- frontend/src/pages/NotesPage.jsx
+  Purpose: Provides a page for creating, viewing, and managing notes related to reading.
+
+- frontend/src/pages/LoginPage.jsx
+  Purpose: User sign-in page with email/password fields and redirect logic after login.
+
+- frontend/src/pages/RegisterPage.jsx
+  Purpose: New user registration page for account creation.
+
+- frontend/src/pages/ReadingGoalsPage.jsx
+  Purpose: Page for creating and viewing reading goals and tracking percentage completion.
+
+- frontend/src/pages/SessionsPage.jsx
+  Purpose: Allows users to log reading sessions, including start/end pages, date, duration, and notes.
+
+- frontend/src/pages/StatisticsPage.jsx
+  Purpose: Displays reading analytics through charts and summary metrics such as total pages and monthly activity.
+
+- frontend/src/pages/ProfilePage.jsx
+  Purpose: Shows the logged-in user’s profile summary, including initials and profile stats.
+
+- frontend/src/pages/SettingsPage.jsx
+  Purpose: Placeholder settings page for reading preferences and notification configuration.
+
+- frontend/build/
+  Purpose: Generated production build output from a frontend build process.
+
+- frontend/dist/
+  Purpose: Distribution build output created during project packaging or deployment.
+
+
+Generated or runtime folders
+----------------------------
+- backend/node_modules/
+  Purpose: Installed Node.js dependencies used by the backend server.
+
+- backend/.venv/
+  Purpose: Virtual environment for Python dependencies used by the Flask backend.
+
+- frontend/node_modules/
+  Purpose: Installed frontend dependencies for React and build tooling.
+
+- backend/data/
+  Purpose: Persistent SQLite database folder used by the app for saved user, novel, and reading data.
+
+
+Summary
+-------
+This application is a personal reading dashboard that lets users manage their library, add books, log reading sessions, set reading goals, save notes, and review reading statistics. It is structured as a React frontend connected to a backend API, with a SQLite database for persistence and a demo dataset for easy local testing.
